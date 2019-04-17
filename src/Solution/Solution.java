@@ -166,5 +166,58 @@ class EdgeList {
 	}
 }
 
+class Heap {
+	int[] heap, key, pos;
+	int allocatedSize, heapsize;
+	
+	public Heap(int size) {
+		this.heap = new int[size + 1];
+		this.key = new int[size + 1];
+		this.pos = new int[size + 1];
+		this.allocatedSize = size + 1;
+		this.heapsize = size;
+	}
+	
+	int size() { return heapsize; }
+	int getKey(int index) { return key[index]; }
+	
+	private void swap(int a, int b) {
+		pos[heap[a]] = b;
+		pos[heap[b]] = a;
+		int tmp = heap[b];
+		heap[b] = heap[a];
+		heap[a] = tmp;
+	}
+	
+	public void initHeap(int source) {
+		for (int ii = 0; ii < heapsize; ++ii) {
+			heap[ii] = ii;
+			pos[ii] = ii;
+			key[ii] = Integer.MAX_VALUE;
+		}
+		key[source - 1] = 0;
+		swap(1, source);
+	}
+	
+	public int extractMin() {
+		int res = heap[1];
+		swap(1, heapsize);
+		--heapsize;
+		bubbleDown(1);
+		return res;
+	}
+	
+	public boolean decreaseKey(int u, int v, int x) {
+		int newKey = key[u - 1] + x;
+		if (key[v] > newKey) {
+			key[v] = newKey;
+			bubbleUp(pos[v]);
+		}
+	}
+	
+	private void bubbleDown(int index) {}
+	private void bubbleUp(int index) {}
+}
+
 /* You can also define other classes here. */
 
